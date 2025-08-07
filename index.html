@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Endless Quiz App</title>
+</head>
+<body style="font-family: Arial; background: #f4f4f4; padding: 20px;">
+  <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px;">
+    <h2 style="text-align: center;">🔁 Endless Quiz App</h2>
+
+    <div id="quiz">
+      <p id="question" style="font-size: 18px;"></p>
+      <div id="options"></div>
+      <p id="feedback" style="font-weight: bold;"></p>
+      <button onclick="nextQuestion()" style="padding: 8px 16px; display: none;" id="nextBtn">Next Question ➡️</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button onclick="resetQuiz()" style="padding: 10px 20px;">🔄 Reset</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "What is the capital of India?",
+        options: ["Mumbai", "New Delhi", "Hyderabad", "Chennai"],
+        answer: 1
+      },
+      {
+        q: "Who invented Python?",
+        options: ["Guido van Rossum", "Dennis Ritchie", "James Gosling", "Tim Berners-Lee"],
+        answer: 0
+      },
+      {
+        q: "Which tag is used for images in HTML?",
+        options: ["<image>", "<img>", "<pic>", "<src>"],
+        answer: 1
+      },
+      {
+        q: "What does CSS stand for?",
+        options: [
+          "Creative Style Sheets",
+          "Cascading Style Sheets",
+          "Computer Style Sheets",
+          "Colorful Style Sheets"
+        ],
+        answer: 1
+      },
+      {
+        q: "What symbol is used for comments in JavaScript?",
+        options: ["<!-- -->", "//", "/* */", "#"],
+        answer: 1
+      },
+      {
+        q: "Which of the following is not a programming language?",
+        options: ["Python", "HTML", "Java", "C++"],
+        answer: 1
+      },
+      {
+        q: "Which company developed the Java programming language?",
+        options: ["Microsoft", "Apple", "Sun Microsystems", "Google"],
+        answer: 2
+      },
+      {
+        q: "What does HTTP stand for?",
+        options: [
+          "HyperText Transfer Protocol",
+          "Hyperlink Transfer Text Protocol",
+          "Home Tool Transfer Protocol",
+          "HyperText Transmission Protocol"
+        ],
+        answer: 0
+      },
+      {
+        q: "What is the extension of a JavaScript file?",
+        options: [".js", ".java", ".py", ".txt"],
+        answer: 0
+      },
+      {
+        q: "What property is used in CSS to change text color?",
+        options: ["font-color", "text-color", "color", "text-style"],
+        answer: 2
+      }
+    ];
+
+    let current = -1;
+
+    function loadQuestion() {
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("nextBtn").style.display = "none";
+
+      current = (current + 1) % questions.length;
+      const q = questions[current];
+
+      document.getElementById("question").innerText = q.q;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      q.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.style = "margin: 6px; padding: 8px 12px;";
+        btn.onclick = () => checkAnswer(index);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const q = questions[current];
+      const feedback = document.getElementById("feedback");
+
+      if (selected === q.answer) {
+        feedback.innerText = "✅ Correct!";
+        feedback.style.color = "green";
+      } else {
+        feedback.innerText = `❌ Wrong! Correct answer: ${q.options[q.answer]}`;
+        feedback.style.color = "red";
+      }
+
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      loadQuestion();
+    }
+
+    function resetQuiz() {
+      current = -1;
+      loadQuestion();
+    }
+
+    // Start on load
+    loadQuestion();
+  </script>
+</body>
+</html>
